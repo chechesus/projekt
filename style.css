@@ -1,0 +1,249 @@
+/*ZAKLAD STRANKY*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  background-color: #101010;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+/*MENU*/
+.grid-container {
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr, 3fr, 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "logo nav login";
+  gap: 10px;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+  justify-self: center;
+  align-self: center;
+}
+a {
+  justify-self: center;
+  align-self: center;
+}
+.user_ico {
+  display: inline-block;
+  justify-self: center;
+  align-self: center;
+  filter: invert(1);
+}
+
+.icon-image {
+  display: inline;
+  margin: 20px;
+  width: 50px;
+  height: 50px;
+}
+/* log icon */
+.shrunken-icon {
+  width: 50px; 
+  height: auto;
+  border-radius: 50%;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+header {
+  position: fixed;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  border-radius: 30px;
+  justify-self: center;
+  align-self: center;
+  z-index: 10;
+}
+header :hover {
+  color: green;
+}
+nav ul {
+  list-style: none;
+  padding: 10px;
+}
+nav ul li {
+  display: inline;
+  margin: 0 10px;
+}
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+/*BLOG_POSTS*/
+.content-grid {
+  display: grid;
+  grid-template-rows: 2fr;
+  grid-template-columns: 2fr, 4fr, 2fr;
+  grid-template-areas:
+    "left main right";
+  gap: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.subarticle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap:  40px;
+}
+.subarticle img {
+  max-width: 400px;
+}
+.mainarticle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.mainarticle img {
+  max-width: 400px;
+  object-fit: cover;
+}
+.card{
+  position: relative;
+}
+.card a {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  height: 52px;
+  width: 100%;  
+  text-align: center;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.792);
+  transition: background-color 0.3s ease;
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  color: #000;
+}
+.mainarticle a:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.mainarticle a span,
+.subarticle a span {
+  position: relative;
+  bottom: 10px;
+  left: 10px;
+  z-index: 3;
+}
+.subarticle a:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+/*content*/
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 10px;
+}
+.text {
+  margin: 10vh;
+  color: #fff;
+}
+/*FOOTER*/
+footer {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  min-height: 160px;
+  margin-top: 50px;
+}
+
+
+/*SOCIALS*/
+.footer-contact,
+.footer-about,
+.social-links {
+  margin: 10px 0;
+}
+
+.social-links a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+/*PRIHLASENIE & REGISTRACIA*/
+.login-box {
+  background-color: #fff;
+  width: 26%;
+  /* Remove fixed height and use flexbox for dynamic height */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin: 20px auto;
+  text-align: center;
+}
+.checkbox-wrapper-14 * {
+  box-sizing: inherit;
+}
+.checkbox-wrapper-14 *:before,
+.checkbox-wrapper-14 *:after {
+  box-sizing: inherit;
+}
+
+.login-box h2 {
+  text-align: center;
+  color: #333;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"],
+.login-box input[type="password_check"],
+.login-box input[type="submit"],
+.login-box input[type="tel"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin: 10px;
+}
+
+.login-box input[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+.login-box div a {
+  margin: 10px;
+}
+
+/*KONTAKT*/
+.kontent {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: 100px;
+}
+
+.mapHolder {
+  margin-top: 45px;
+}
+
+.list_contacts li {
+  margin: 6px;
+}
+
