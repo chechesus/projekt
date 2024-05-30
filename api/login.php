@@ -38,15 +38,15 @@ if ($count >= 1) {
         $_SESSION["username"] = $user["name"];
         $success = true;
 
-        // Redirect to the "my account" page
-        header('Location: index.php');
+        // Redirect to the "index" page with icons of user
+        header('Location: /projekt/index.php');
         exit;
     } else {
         // Display an error message if the password is incorrect
         echo '<p>Nesprávne heslo </p>';
         echo '<script>
         setTimeout(function(){
-                window.location.href = "Login_form.php";
+                window.location.href = "/projekt/Login_form.php";
             }, 2000);     
         </script>';
     }    
@@ -55,7 +55,7 @@ if ($count >= 1) {
     echo '<p>Za malú chvíľu budete presmerovaný na registráciu</p>';
     echo '<script>
             setTimeout(function(){
-                window.location.href = "reg_form.php";
+                window.location.href = "/projekt/reg_form.php";
             }, 2000);     
         </script>';
 }

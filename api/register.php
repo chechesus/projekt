@@ -13,7 +13,7 @@ $nick = filter_input(INPUT_POST, 'nick', FILTER_SANITIZE_STRING);
 $mail = filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL);
 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING); 
 $password_check = filter_input(INPUT_POST, 'password_check', FILTER_SANITIZE_STRING);
-$tel = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_NUMBER_INT);
+$tel = filter_input(INPUT_POST, 'tel', FILTER_SANITIZE_NUMBER_INT);
 
 // Check if all required fields are filled
 if (empty($name) || empty($nick) || empty($mail) || empty($password) || empty($password_check)) {
@@ -45,13 +45,13 @@ if ($stmt->execute()) {
 if ($success) {
     echo 
     '<script>
-        window.location.href = "true_reg.html";
+        window.location.href = "/projekt/message_handlers/true_reg.html";
     </script>';
     exit;
 } else {
     echo 
     '<script>
-        window.location.href = "not_reg.html";
+        window.location.href = "/projekt/message_handlers/not_reg.html";
         alert("BAD request");
     </script>';
 }

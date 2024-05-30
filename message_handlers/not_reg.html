@@ -10,7 +10,7 @@
             font-family: sans-serif;
             height: 100%;
             width: 100%;
-            background-image: url(images/background.png);
+            background-image: url(background.png);
             overflow-x: hidden;
             overflow-y: hidden;
             
@@ -25,12 +25,8 @@
     </head>
 <body>
     <div class="container-720">
-        <div class="heading" 
-        style="background: #000;display:flex;
-         align-items: center;justify-content: center;
-         margin-left:-20px;margin-right: -20px;box-shadow: 0 5px 10px -5px green;
-         padding-left: 30px;padding-right:30px;">
-          <h1 style="line-height: 50px;color:white">Registrácia prebehla úspešne</h1>
+        <div class="heading" style="background: #000;display:flex; align-items: center;justify-content: center;margin-left:-20px;margin-right: -20px;box-shadow: 0 5px 10px -5px green;padding-left: 30px;padding-right:30px;">
+          <h1 style="line-height: 50px;color:red">Neúspešná registrácia</h1>
         </div>
         <main style="padding: 10px;">
           <p><script>
@@ -40,7 +36,7 @@
       </div>
     <script>
     setTimeout(function(){
-                window.location.href = "index.php";
+                window.location.href = "/projekt/reg_form.php";
             }, 3000);     
     </script>
 </body>

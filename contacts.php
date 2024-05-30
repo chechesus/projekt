@@ -1,4 +1,4 @@
-<?php include 'session.php';?> 
+<?php include 'api/session.php';?> 
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="grid-container">
-        <?php include 'menu.php';?> 
+<?php include 'website_elements/menu.php';?> 
     </div>
         <div class="text">
         <h1>Toto je 1. paragraf</h1>
@@ -40,6 +40,6 @@
         </p>
     </div>
 
-    <?php include 'footer.php';?>
+    <?php include 'website_elements/footer.php';?>
 </body>
 </html>

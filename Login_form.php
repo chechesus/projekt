@@ -5,7 +5,7 @@
     <title>Prihlásiť sa</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<?php include 'session.php';?> 
+<?php include 'api/session.php';?> 
 
 <style>
     @supports (-webkit-appearance: none) or (-moz-appearance: none) {
@@ -128,14 +128,14 @@
   </style>
 <body>
     <div class="grid-container">  
-    <?php include 'menu.php';?>
+    <?php include 'website_elements/menu.php';?> 
     </div>
     
         <div class="login-box">
 
             <h2>Prihlasenie</h2>
 
-            <form id="login-form"action="login.php" method="post">
+            <form id="login-form"action="api/login.php" method="post">
                 <input type="text" name="identifier" placeholder="Meno / mail " required>
                 <input type="password" name="password" placeholder="Heslo" required>
                 <div class="checkbox-wrapper-14">
@@ -149,6 +149,6 @@
             </div>
         </div>
 
-        <?php include 'footer.php';?>
+        <?php include 'website_elements/footer.php';?>
 </body>
 </html>

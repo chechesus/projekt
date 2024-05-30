@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="sk">
-<?php include 'session.php';?> 
+<?php include 'api/session.php';?> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +10,12 @@
 
 <body>
     <div class="grid-container">  
-    <?php include 'menu.php';?> 
+    <?php include 'website_elements/menu.php';?> 
     </div>
 
     <div class="login-box">
         <h2>Registrácia</h2>
-        <form action="register.php" method="post" enctype="multipart/form-data" >
+        <form action="api/register.php" method="post" enctype="multipart/form-data" >
             <input type="text" name="username" placeholder="Používateľské meno" required />
             <input type="text" name="nick" placeholder="Prezývka" required />
             <input type="text" name="mail" placeholder="Mailova adresa" required />
@@ -27,7 +27,7 @@
         </form>
     </div>
 
-    <?php include 'footer.php';?>
+    <?php include 'website_elements/footer.php';?>
     
     <script>
     var code = document.getElementById("password");

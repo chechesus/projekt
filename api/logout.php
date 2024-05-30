@@ -5,10 +5,10 @@ if(isset($_SESSION['username'])) {
   session_unset();
   session_destroy();
   //redirect
-  header("Location: reg_form.php");
+  header("Location: /projekt/reg_form.php");
   exit();
 } else {
-  header("Location: index.php");
+  header("Location: /projekt/index.php");
   exit();
 }
 ?>

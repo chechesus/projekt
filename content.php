@@ -1,4 +1,4 @@
-<?php include 'session.php';?> 
+<?php include 'api/session.php';?> 
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -10,10 +10,10 @@
 
 <body>
     <div class="grid-container">
-        <?php include 'menu.php';?> 
+    <?php include 'website_elements/menu.php';?> 
     </div>
 
-    <?php include 'content-grid.php';?>
-    <?php include 'footer.php';?>
+    <?php include 'website_elements/content-grid.php';?>
+    <?php include 'website_elements/footer.php';?>
 </body>
 </html>
