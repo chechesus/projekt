@@ -35,13 +35,20 @@ a {
   justify-self: center;
   align-self: center;
 }
-.user_ico {
-  display: inline-block;
+.user_ico{
+  display: inline-flex;
   justify-self: center;
   align-self: center;
   filter: invert(1);
 }
-
+.user_ico a{
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+  text-decoration: none;
+  font-family:  Arial, sans-serif;
+  color:#000
+}
 .icon-image {
   display: inline;
   margin: 20px;
@@ -198,14 +205,6 @@ footer {
   margin: 20px auto;
   text-align: center;
 }
-.checkbox-wrapper-14 * {
-  box-sizing: inherit;
-}
-.checkbox-wrapper-14 *:before,
-.checkbox-wrapper-14 *:after {
-  box-sizing: inherit;
-}
-
 .login-box h2 {
   text-align: center;
   color: #333;
