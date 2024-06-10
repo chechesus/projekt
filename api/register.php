@@ -31,7 +31,7 @@ if ($password !== $password_check) {
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // INSERT do databázy
-$sql = "INSERT INTO uzivatelia (name, nick, mail, tel, password) VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO users (name, nick, mail, tel, password) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('sssis', $name, $nick, $mail, $tel, $hashed_password);
 

@@ -10,19 +10,20 @@ if ($conn->connect_error) {
 // Get user input
 $identifier = filter_input(INPUT_POST, 'identifier', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$remember_me = filter_input(INPUT_POST, 'remember_me', FILTER_SANITIZE_NUMBER_INT);
 
-// Prepare a statement to check if the user exists
-$stmt = $conn->prepare("SELECT COUNT(*) as count FROM uzivatelia WHERE name like ? OR mail like ? ");
+//does user exist 
+$stmt = $conn->prepare("SELECT COUNT(*) as count FROM users WHERE name like ? OR mail like ? ");
 $stmt->bind_param("ss", $identifier, $identifier);
 $stmt->execute();
 $stmt->bind_result($count);
 $stmt->fetch();
 $stmt->close();
 
-// Check if the user exists
+// 1 yes, 0 no
 if ($count >= 1) {
     // Prepare a statement to retrieve the user's information
-    $stmt = $conn->prepare("SELECT password, name FROM uzivatelia WHERE name = ? OR mail = ?");
+    $stmt = $conn->prepare("SELECT id, password, name FROM users WHERE name = ? OR mail = ?");
     $stmt->bind_param("ss", $identifier, $identifier);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -38,6 +39,16 @@ if ($count >= 1) {
         $_SESSION["username"] = $user["name"];
         $success = true;
 
+        // Set cookie to remember login
+        if ($remember_me == 1) {
+            setcookie('remember_me', $user["id"], time() + 31536000, '/projekt/'); // 1 year
+            setcookie('identifier', $identifier, time() + 31536000, '/projekt/');
+            header('Cache-Control: public, max-age=31536000');
+            header('Pragma: cache');
+            header('Expires: '. gmdate('D, d M Y H:i:s', time() + 31536000). 'MT');
+        }
+
+        
         // Redirect to the "index" page with icons of user
         header('Location: /projekt/index.php');
         exit;
