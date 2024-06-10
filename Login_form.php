@@ -139,8 +139,8 @@
                 <input type="text" name="identifier" placeholder="Meno / mail " required>
                 <input type="password" name="password" placeholder="Heslo" required>
                 <div class="checkbox-wrapper-14">
-                <input id="s1-14" type="checkbox" class="switch">
-                <label for="s1-14">Zapamätať Prihlásenie</label>
+                  <input id="s1-14" type="checkbox" class="switch">
+                  <label for="s1-14">Zapamätať Prihlásenie</label>
                 </div>
                 <input type="submit" value="Prihlásiť sa">
             </form>
