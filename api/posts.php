@@ -13,13 +13,13 @@ function connectToDatabase() {
 // Function to retrieve user input from a form
 function getUserInput() {
     $name = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING); // Get the username from the form
-    $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING); // Get the comment from the form
+    $comment_text = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING); // Get the comment from the form
     return [$name, $comment];
 }
 
 // Function to get the user ID based on the provided username
 function getUserID($conn, $name) {
-    $stmt = $conn->prepare("SELECT ID FROM uzivatelia WHERE name =?");
+    $stmt = $conn->prepare("SELECT ID FROM users WHERE name =?");
     $stmt->bind_param("s", $name);
     $stmt->execute();
     $stmt->bind_result($user_id);
@@ -29,8 +29,8 @@ function getUserID($conn, $name) {
 }
 
 // Function to insert a new comment into the database
-function insertComment($conn, $user_id, $comment) {
-    $sql = "INSERT into comments (user_id, comment) values(?,?)";
+function insertComment($conn, $user_id, $comment_text) {
+    $sql = "INSERT into comments (user_id, comment_text) values(?,?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('is', $user_id, $comment);
     $stmt->execute();

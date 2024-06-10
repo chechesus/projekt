@@ -27,14 +27,14 @@
         </a>
         </div>
         <div>
-        <a href="api/logout.php">
+        <a href="api/logout.php" id = "logoutButton">
             <img src="images/logout.png" alt="Logout Icon" class="icon-image">
         </a>
         </div>
     </div>
     <?php else:?>
         <div class="user_ico">
-        <a href="Login_form.php">
+        <a href="Login_form.php" >
             <img src="images/user_ico.png" alt="User Icon" class="icon-image">
            <p>Prihlásiť sa</p> 
         </a>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Prihlásiť sa</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -11,103 +11,128 @@
         <?php include 'website_elements/menu.php';?> 
     </div>
     <div class="text">
-    <h1>Toto je 1. paragraf</h1>
-    <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text. 
-        It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-        Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
-        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-        Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC.
-        This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
-        comes from a line in section 1.10.32.
-        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
-        Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form,
-        accompanied by English versions from the 1914 translation by H. Rackham.    
-    </p>
-    <br>
-    <h2>Toto je 2. paragraf</h2>
-    <p>
-        Contrary to popular belief, Lorem Ipsum is not simply random text. 
-        It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. 
-        Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
-        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-        Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC.
-        This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
-        comes from a line in section 1.10.32.
-        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
-        Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form,
-        accompanied by English versions from the 1914 translation by H. Rackham.    
-    </p>
-</div>
-<div class="comment-thread">
-    <!-- Comment 1 start -->
-    <div class="comment" id="comment-1">
-        <div class="comment-heading">
-            <div class="comment-voting">
-                <button type="button">
-                    <span aria-hidden="true">&#9650;</span>
-                    <span class="sr-only">Vote up</span>
-                </button>
-                <button type="button">
-                    <span aria-hidden="true">&#9660;</span>
-                    <span class="sr-only">Vote down</span>
-                </button>
-            </div>
-            <div class="comment-info">
-                <a href="#" class="comment-author">someguy14</a>
-                <p class="m-0">
-                    22 points &bull; 4 days ago
-                </p>
-            </div>
-        </div>
+    <?php
+    include 'api/config.php';
+    // Get the article ID from the URL parameter
+    $article_id = $_GET['id'];
 
-        <div class="comment-body">
-            <p>
-                This is really great! I fully agree with what you wrote, and this is sure to help me out in the future. Thank you for posting this.
-            </p>
-            <button type="button">Reply</button>
-            <button type="button">Flag</button>
-        </div>
+    // Query the database to retrieve the article data
+    $query = "SELECT title, content FROM articles WHERE article_id = '$article_id'";
+    $result = mysqli_query($conn, $query);
 
-        <div class="replies">
-            <!-- Comment 2 start -->
-            <div class="comment" id="comment-2">
-                <div class="comment-heading">
-                    <div class="comment-voting">
-                        <button type="button">
-                            <span aria-hidden="true">&#9650;</span>
-                            <span class="sr-only">Vote up</span>
-                        </button>
-                        <button type="button">
-                            <span aria-hidden="true">&#9660;</span>
-                            <span class="sr-only">Vote down</span>
-                        </button>
-                    </div>
-                    <div class="comment-info">
-                        <a href="#" class="comment-author"><?php echo($_SESSION["username"])?></a>
-                        <p class="m-0">
-                            4 points &bull; 3 days ago
-                        </p>
-                    </div>
-                </div>
+    // Check if the article exists
+    if (mysqli_num_rows($result) > 0) {
+        $article_data = mysqli_fetch_assoc($result);
+        $title = $article_data['title'];
+        $content = $article_data['content'];
 
-                <div class="comment-body">
-                    <p>
-                        Took the words right out of my mouth!
-                    </p>
-                    <button type="button">Reply</button>
-                    <button type="button">Flag</button>
-                </div>
-            </div>
-            <!-- Comment 2 end -->
-
-            <a href="#load-more">Load more replies</a>
-        </div>
+        // Display the article content
+        echo "<h1>$title</h1>";
+        echo "<p>$content</p>";
+    } else {
+        echo "Article not found.";
+    }
+    ?>
     </div>
-    <!-- Comment 1 end -->
+<div class="comment-thread">
+    <?php
+    // Query the database to retrieve comments for this article
+    $query = "SELECT * FROM comments WHERE article_id = '$article_id' ORDER BY timestamp DESC";
+    $result = mysqli_query($conn, $query);
+    $query2 = "SELECT nick from users WHERE ID = (SELECT user_id FROM `comments` join users on comments.user_id = users.ID)";
+    $result2 = mysqli_query($conn, $query2);
+
+    while ($comment = mysqli_fetch_assoc($result)) {
+        $comment_id = $comment['comment_id'];
+        $comment_text = $comment['comment_text'];
+        $comment_author = mysqli_fetch_assoc($result2);
+        $comment_timestamp = $comment['timestamp'];
+
+        // Display the comment
+        echo "<div class='comment' id='comment-$comment_id'>";
+        echo "<div class='comment-heading'>";
+        echo "<div class='comment-voting'>";
+        echo "<button type='button'>";
+        echo "<span aria-hidden='true'>&#9650;</span>";
+        echo "<span class='sr-only'>Vote up</span>";
+        echo "</button>";
+        echo "<button type='button'>";
+        echo "<span aria-hidden='true'>&#9660;</span>";
+        echo "<span class='sr-only'>Vote down</span>";
+        echo "</button>";
+        echo "</div>";
+        echo "<div class='comment-info'>";
+        echo "<a href='#' class='comment-author'>$comment_author</a>";
+        echo "<p class='m-0'>";
+        echo "$comment_timestamp";
+        echo "</p>";
+        echo "</div>";
+        echo "</div>";
+
+        echo "<div class='comment-body'>";
+        echo "<p>$comment_text</p>";
+
+        // Display edit button if the user is the comment author
+        if ($_SESSION['username'] == $comment_author) {
+            echo "<button type ='button' class ='edit-comment' data-comment-id='$comment_id'>Edit</button>";
+        }
+
+        echo "<button type='button'>Reply</button>";
+        echo "<button type='button'>Flag</button>";
+        echo "</div>";
+
+        // Display edit form if the user clicks the edit button
+        if (isset($_POST['edit-comment']) && $_POST['edit-comment'] == $comment_id) {
+            echo "<form action='' method='post'>";
+            echo "<textarea name='edited-comment'>$comment_text</textarea>";
+            echo "<input type='hidden' name='comment-id' value='$comment_id'>";
+            echo "<button type='submit'>Update Comment</button>";
+            echo "</form>";
+        }
+
+        echo "</div>";
+    }
+
+       // Display the comment submission form
+       if (isset($_SESSION['username'])) {
+        echo "<form action='' method='post'>";
+        echo "<textarea name='new-comment'></textarea>";
+        echo "<input type='hidden' name='article-id' value='$article_id'>";
+        echo "<button type='submit'>Add Comment</button>";
+        echo "</form>";
+    } else {
+        echo "You must be logged in to add a comment.";
+    }
+    ?>
 </div>
 
-<?php include 'footer.php';?>
+<?php
+// Handle comment submission
+if (isset($_POST['new-comment'])) {
+    $new_comment = $_POST['new-comment'];
+    $article_id = $_POST['article-id'];
+    $author = $_SESSION['username'];
 
-</body>
-</html>
+    // Insert the new comment into the database
+    $query = "INSERT INTO comments (article_id, author, text) VALUES ('$article_id', '$author', '$new_comment')";
+    mysqli_query($conn, $query);
+
+    // Redirect to the same page to display the new comment
+    header("Location: article.php?id=$article_id");
+    exit;
+}
+
+// Handle comment editing
+if (isset($_POST['edited-comment'])) {
+    $edited_comment = $_POST['edited-comment'];
+    $comment_id = $_POST['comment-id'];
+
+    // Update the comment in the database
+    $query = "UPDATE comments SET text = '$edited_comment' WHERE id = '$comment_id'";
+    mysqli_query($conn, $query);
+
+    // Redirect to the same page to display the updated comment
+    header("Location: article.php?id=$article_id");
+    exit;
+}
+?>
