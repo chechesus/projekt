@@ -14,14 +14,14 @@
         </ul>
     </nav>
 </header>
-<div><!--prazdny div na vytvorenie miesta na navigaciu v gride -->
+<div>
 
-</div><!--Zobrazenie ikon podla toho či je user session prihlasený alebo nie -->
+</div>
 
     <?php if (isset($_SESSION["username"])):?>
     <div class="user_ico">
         <div>
-        <a href="#">
+        <a href="cms/user_dashboard.php">
             <img src="images/user_ico.png" alt="User Icon" class="icon-image">
             <p><?php echo htmlspecialchars($_SESSION["username"]);?></p>
         </a>

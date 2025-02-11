@@ -1,11 +1,35 @@
 <?php include 'api/session.php';?> 
-<!DOCTYPE html>
-<html lang="sk">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Prihlásiť sa</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
+<?php
+// Handle comment submission
+if (isset($_POST['new-comment'])) {
+    $new_comment = $_POST['new-comment'];
+    $article_id = $_POST['article-id'];
+
+    // Insert the new comment into the database (assuming you have a comments table)
+    // Example: $conn->query("INSERT INTO comments (article_id, comment) VALUES ('$article_id', '$new_comment')");
+
+    // Insert a notification for the new comment
+    $notification_message = "A new comment has been posted on your thread.";
+    $sql = "INSERT INTO notifications (message, type, sent) VALUES ('$notification_message', 'comment', 0)";
+    $conn->query($sql);
+}
+
+// Handle comment editing
+if (isset($_POST['edited-comment'])) {
+    $edited_comment = $_POST['edited-comment'];
+    $comment_id = $_POST['comment-id'];
+
+    // Update the comment in the database
+    $query = "UPDATE comments SET text = '$edited_comment' WHERE id = '$comment_id'";
+    mysqli_query($conn, $query);
+
+    // Redirect to the same page to display the updated comment
+    header("Location: article.php?id=$article_id");
+    exit;
+}
+
+require 'inc/header.php';
+?>
 <body>
     <div class="grid-container">
         <?php include 'website_elements/menu.php';?> 
@@ -37,15 +61,13 @@
 <div class="comment-thread">
     <?php
     // Query the database to retrieve comments for this article
-    $query = "SELECT * FROM comments WHERE article_id = '$article_id' ORDER BY timestamp DESC";
+    $query = "SELECT * FROM comments JOIN users ON comments.fk_user_ID = users.id WHERE article_id = '$article_id' ORDER BY timestamp DESC";
     $result = mysqli_query($conn, $query);
-    $query2 = "SELECT nick from users WHERE ID = (SELECT user_id FROM `comments` join users on comments.user_id = users.ID)";
-    $result2 = mysqli_query($conn, $query2);
 
     while ($comment = mysqli_fetch_assoc($result)) {
         $comment_id = $comment['comment_id'];
         $comment_text = $comment['comment_text'];
-        $comment_author = mysqli_fetch_assoc($result2);
+        $comment_author = $comment['nick'];
         $comment_timestamp = $comment['timestamp'];
 
         // Display the comment
@@ -68,15 +90,8 @@
         echo "</p>";
         echo "</div>";
         echo "</div>";
-
         echo "<div class='comment-body'>";
         echo "<p>$comment_text</p>";
-
-        // Display edit button if the user is the comment author
-        if ($_SESSION['username'] == $comment_author) {
-            echo "<button type ='button' class ='edit-comment' data-comment-id='$comment_id'>Edit</button>";
-        }
-
         echo "<button type='button'>Reply</button>";
         echo "<button type='button'>Flag</button>";
         echo "</div>";
@@ -93,46 +108,28 @@
         echo "</div>";
     }
 
-       // Display the comment submission form
-       if (isset($_SESSION['username'])) {
-        echo "<form action='' method='post'>";
+       // Check if the user is logged in
+        if ( $_SESSION["loggedin"] === true) {
+        echo "<form action='blog_post.php?id=1' method='post'>";
         echo "<textarea name='new-comment'></textarea>";
         echo "<input type='hidden' name='article-id' value='$article_id'>";
         echo "<button type='submit'>Add Comment</button>";
         echo "</form>";
     } else {
-        echo "You must be logged in to add a comment.";
+        echo "<div >";
+        echo "<h2>Musíte sa prihlásiť na pridanie komentárov";
+        echo "</h2>";
+        echo "</div>";
     }
     ?>
 </div>
 
-<?php
-// Handle comment submission
-if (isset($_POST['new-comment'])) {
-    $new_comment = $_POST['new-comment'];
-    $article_id = $_POST['article-id'];
-    $author = $_SESSION['username'];
 
-    // Insert the new comment into the database
-    $query = "INSERT INTO comments (article_id, author, text) VALUES ('$article_id', '$author', '$new_comment')";
-    mysqli_query($conn, $query);
-
-    // Redirect to the same page to display the new comment
-    header("Location: article.php?id=$article_id");
-    exit;
+<script>
+    if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
 }
-
-// Handle comment editing
-if (isset($_POST['edited-comment'])) {
-    $edited_comment = $_POST['edited-comment'];
-    $comment_id = $_POST['comment-id'];
-
-    // Update the comment in the database
-    $query = "UPDATE comments SET text = '$edited_comment' WHERE id = '$comment_id'";
-    mysqli_query($conn, $query);
-
-    // Redirect to the same page to display the updated comment
-    header("Location: article.php?id=$article_id");
-    exit;
-}
-?>
+</script>
+<?php include 'website_elements/footer.php';?>
+</body>
+</html>

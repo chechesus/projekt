@@ -1,66 +1,49 @@
-<!DOCTYPE html>
-<html lang="sk">
-<?php include 'api/session.php';?> 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Registrácia</title>
-</head>
+<?php 
+require 'api/session.php';
+require 'inc/header.php';
+?>
 
 <body>
     <div class="grid-container">  
-    <?php include 'website_elements/menu.php';?> 
+    <?php require 'website_elements/menu.php';?> 
     </div>
 
     <div class="login-box">
         <h2>Registrácia</h2>
-        <form action="api/register.php" method="post" enctype="multipart/form-data" >
+
+        <form action="api/register.php" method="post" enctype="multipart/form-data">
             <input type="text" name="username" placeholder="Používateľské meno" required />
             <input type="text" name="nick" placeholder="Prezývka" required />
             <input type="text" name="mail" placeholder="Mailova adresa" required />
+            
+            <div class="password-container">
             <input type="password" name="password" id="password" placeholder="Heslo" required />
+            <i id="togglePassword" class="toggle-icon fas fa-eye"></i>
+            </div>
+
             <progress max="100" value="0" id="meter"></progress>
-            <input type="password" name="password_check" placeholder="Zopakujte heslo" required />
-            <input type="tel" name="tel" placeholder="Telefónne číslo" required />
+            
+            <div class="password-container">
+                <input type="password" name="password_check" id="password_check" placeholder="Zopakujte heslo" required />
+                <i id="togglePasswordCheck" class="toggle-icon fas fa-eye"></i>
+            </div>
+
+            <input type="tel" name="tel" placeholder="Telefónne číslo"/>
             <input type="submit" value="Zaregistrovať ma" />
         </form>
     </div>
 
-    <?php include 'website_elements/footer.php';?>
+
+    <?php require 'website_elements/footer.php';?>
     
-    <script>
-    var code = document.getElementById("password");
+    <script type="module">
+    import { setupPasswordStrengthChecker, setupPasswordToggleListeners } from './scripts.js';
 
-    var strengthbar = document.getElementById("meter");
-
-    code.addEventListener("input", function(){
-        checkpassword(code.value);
-        strengthbar.value = calculateStrength(code.value);
-    })
-
-    function calculateStrength(password) {
-        var strength = 0;
-        if (password.match(/[a-z]+/)) {
-            strength += 1;
-        }
-        if (password.match(/[A-Z]+/)) {
-            strength += 1;
-        }
-        if (password.match(/[0-9]+/)) {
-            strength += 1;
-        }
-        if (password.match(/[$@#&!]+/)) {
-            strength += 1;
-        }
-        if (password.length < 6) {
-            return 0;
-        }
-        if (password.length > 12) {
-            return 100;
-        }
-        return strength * 25;
-    }
+    document.addEventListener("DOMContentLoaded", function() {//safe ececution after html,css loads
+        setupPasswordStrengthChecker();
+        setupPasswordToggleListeners();
+    });
     </script>
+    
 </body>
 </html>

@@ -1,12 +1,7 @@
-<?php include 'api/session.php';?> 
-<!DOCTYPE html>
-<html lang="sk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Vlaky.sk</title>
-</head>
+<?php 
+include 'api/session.php';
+require 'inc/header.php';
+?> 
 
 <body>
     <div class="grid-container">

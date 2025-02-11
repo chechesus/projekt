@@ -1,20 +1,10 @@
 <?php
-
-// Function to establish a connection to the database
-function connectToDatabase() {
-    require_once 'config.php'; // Include the configuration file
-    $conn = new mysqli($host, $username, $password, $dbname); // Create a new mysqli object
-    if ($conn->connect_error) {
-        throw new Exception("Connection failed: ". $conn->connect_error);
-    }
-    return $conn;
-}
-
+require_once 'session.php';
 // Function to retrieve user input from a form
 function getUserInput() {
     $name = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING); // Get the username from the form
     $comment_text = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_STRING); // Get the comment from the form
-    return [$name, $comment];
+    return [$name, $comment_text];
 }
 
 // Function to get the user ID based on the provided username
@@ -22,7 +12,7 @@ function getUserID($conn, $name) {
     $stmt = $conn->prepare("SELECT ID FROM users WHERE name =?");
     $stmt->bind_param("s", $name);
     $stmt->execute();
-    $stmt->bind_result($user_id);
+    $user_id = $stmt->get_result();
     $stmt->fetch();
     $stmt->close();
     return $user_id;
@@ -32,7 +22,7 @@ function getUserID($conn, $name) {
 function insertComment($conn, $user_id, $comment_text) {
     $sql = "INSERT into comments (user_id, comment_text) values(?,?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('is', $user_id, $comment);
+    $stmt->bind_param('is', $user_id, $comment_text);
     $stmt->execute();
     if ($stmt->error) {
         throw new Exception("Error inserting or updating data: ". $stmt->error);
@@ -41,7 +31,6 @@ function insertComment($conn, $user_id, $comment_text) {
 }
 
 try {
-    $conn = connectToDatabase(); // Connect to the database
     [$name, $comment] = getUserInput(); // Get the user input
     $user_id = getUserID($conn, $name); // Get the user ID
     if ($user_id > 0) {

@@ -1,3 +1,4 @@
+
 /*ZAKLAD STRANKY*/
 * {
   margin: 0;
@@ -90,6 +91,7 @@ nav ul li a {
 }
 /*BLOG_POSTS*/
 .content-grid {
+  padding-top: 3%;
   display: grid;
   grid-template-rows: 2fr;
   grid-template-columns: 2fr, 4fr, 2fr;
@@ -169,16 +171,23 @@ main {
   color: #fff;
 }
 /*FOOTER*/
+.row{
+  margin-left: 3%;
+}
 .ul-section{
   margin: 0px;
   padding: 0px;
 }
+.ul-section a{
+  text-decoration: none;
+}
 .footer-section {
 background: #151414;
 position: relative;
+margin-top: 10%;
 }
-.footer-cta {
-border-bottom: 1px solid #373636;
+.container{
+  padding-inline: 2.5%;
 }
 .single-cta i {
 color: #ff5e14;
@@ -187,6 +196,7 @@ float: left;
 margin-top: 8px;
 }
 .cta-text {
+padding-top: 1%;
 padding-left: 15px;
 display: inline-block;
 }
@@ -213,7 +223,7 @@ background-size: cover;
 background-position: 100% 100%;
 }
 .footer-logo {
-margin-bottom: 30px;
+margin: 2.69%;
 }
 .footer-logo img {
   max-width: 200px;
@@ -243,6 +253,8 @@ width: 40px;
 text-align: center;
 line-height: 38px;
 border-radius: 50%;
+margin-top: 1%;
+margin-bottom: 2%;
 }
 .facebook-bg{
 background: #3B5998;
@@ -282,80 +294,6 @@ color: #ff5e14;
 color: #878787;
 text-transform: capitalize;
 }
-.subscribe-form {
-position: relative;
-overflow: hidden;
-}
-.subscribe-form input {
-width: 100%;
-padding: 14px 28px;
-background: #2E2E2E;
-border: 1px solid #2E2E2E;
-color: #fff;
-}
-.subscribe-form button {
-  position: absolute;
-  right: 0;
-  background: #ff5e14;
-  padding: 13px 20px;
-  border: 1px solid #ff5e14;
-  top: 0;
-}
-.subscribe-form button i {
-color: #fff;
-font-size: 22px;
-transform: rotate(-6deg);
-}
-.copyright-area{
-background: #202020;
-padding: 25px 0;
-}
-.copyright-text p {
-margin: 0;
-font-size: 14px;
-color: #878787;
-}
-.copyright-text p a{
-color: #ff5e14;
-}
-.footer-menu li {
-display: inline-block;
-margin-left: 20px;
-}
-.footer-menu li:hover a{
-color: #ff5e14;
-}
-.footer-menu li a {
-font-size: 14px;
-color: #878787;
-}
-/* footer {
-  background-color: #000;
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
-  min-height: 160px;
-  margin-top: 50px;
-}
-/*KOTAKTS*/
-
-/*SOCIALS*/
-/* .footer-contact,
-.footer-about,
-.social-links {
-  margin: 10px 0;
-  text-decoration: none;
-  color: #fff;
-} */
-
-/* .social-links a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 10px;
-  box-shadow: 10px 5px 7px rgba(124, 104, 104, 0.1);
-  border-radius: 20px;
-} */
-
 /*PRIHLASENIE & REGISTRACIA*/
 .login-box {
   background-color: #fff;
@@ -376,14 +314,43 @@ color: #878787;
 
 .login-box input[type="text"],
 .login-box input[type="password"],
-.login-box input[type="password_check"],
 .login-box input[type="submit"],
-.login-box input[type="tel"] {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin: 10px;
+.login-box input[type="tel"],
+textarea {
+    width: calc(100% - 20px); /* General rule for other inputs */
+    padding: 10px;
+    margin: 10px;
 }
 
+/* Specific rule for password input to allow space for the icon */
+.password-container input[type="password"] {
+    width: calc(100% - 20px); /* Adjust width to account for icon */
+    padding: 10px; /* Keep the same padding */
+    padding-right: 40px; /* Space for the icon */
+}
+
+.password-container {
+  position: relative; /* Allows absolute positioning of the icon */
+  width: 100%; /* Full width of the parent container */
+  margin: 10px 0; /* Add margin for spacing */
+}
+
+.password-container input {
+  width: 100%; /* Full width */
+  padding: 10px; /* Standard padding */
+  padding-right: 40px; /* Space for the icon */
+  box-sizing: border-box; /* Include padding in width */
+}
+
+.toggle-icon {
+  position: absolute; /* Position the icon inside the container */
+  right: 25px; /* Distance from the right edge */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for perfect centering */
+  cursor: pointer; /* Change cursor to pointer */
+  color: #999; /* Icon color */
+  font-size: 20px; /* Adjust icon size */
+}
 .login-box input[type="submit"] {
   background-color: #333;
   color: #fff;
@@ -487,4 +454,132 @@ button:active {
 }
 .replies {
     margin-left: 20px;
+}
+/*Galeria*/
+.album {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.album .responsive-container-block {
+  min-height: 75px;
+  height: fit-content;
+  width: 100%;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  justify-content: flex-start;
+}
+
+.album .responsive-container-block.bg {
+  max-width: 1320px;
+  margin: 0 0 0 0;
+  justify-content: space-between;
+}
+
+.album .img {
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+
+.album #i9rb {
+  color: black;
+}
+
+.album #ir6i {
+  color: black;
+}
+
+.album #ikz3b {
+  color: black;
+}
+
+.album .responsive-container-block.img-cont {
+  flex-direction: column;
+  max-width: 33.3%;
+  min-height: auto;
+  margin: 0 0 0 0;
+  height: 100%;
+}
+
+.album #ipix {
+  color: black;
+}
+
+.album #ipzoh {
+  color: black;
+}
+
+.album #ig5q8 {
+  color: black;
+}
+
+.album #imtzl {
+  color: black;
+}
+
+.album #i53es {
+  color: black;
+}
+
+.album .img.img-big {
+  height: 50%;
+  margin: 0 0 16px 0;
+}
+
+@media (max-width: 1024px) {
+  .album .img {
+    margin: 0 0 18px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .album .img {
+    max-width: 32.5%;
+    margin: 0 0 0 0;
+  }
+
+  .album .responsive-container-block.bg {
+    flex-direction: column;
+  }
+
+  .album .responsive-container-block.img-cont {
+    max-width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .album .img.img-big {
+    max-width: 49%;
+    margin: 0 0 0 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .album .img {
+    max-width: 94%;
+    margin: 0 0 25px 0;
+  }
+
+  .album .responsive-container-block.img-cont {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 10px 10px 10px;
+  }
+
+  .album .img.img-big {
+    max-width: 94%;
+    margin: 0 0 25px 0;
+  }
+
+  .album .img.img-last {
+    margin: 0 0 5px 0;
+  }
 }
