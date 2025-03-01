@@ -35,4 +35,5 @@ function read_location_data() {
     $conn->close();
     echo json_encode($data);
 }
+print_r($_SERVER);
 ?>

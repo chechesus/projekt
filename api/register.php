@@ -1,17 +1,19 @@
 <?php
 $success = false;
 require_once 'session.php';
+require 'C:\xampp\htdocs\projekt\vendor\autoload.php'; // Path to Composer autoload
 
 global $conn; // Ensure $conn is accessible
 
-$name = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-$nick = filter_input(INPUT_POST, 'nick', FILTER_SANITIZE_STRING);
-$mail = filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL);
-$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING); 
-$password_check = filter_input(INPUT_POST, 'password_check', FILTER_SANITIZE_STRING);
-$tel = filter_input(INPUT_POST, 'tel', FILTER_SANITIZE_NUMBER_INT);
+$name = isset($_POST['username']) ? htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8') : null;
+$nick = isset($_POST['nick']) ? htmlspecialchars($_POST['nick'], ENT_QUOTES, 'UTF-8') : null;
+$mail = isset($_POST['mail']) ? htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8') : null;
+$password = isset($_POST['password']) ? htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8') : null;
+$password_check = isset($_POST['password_check']) ? htmlspecialchars($_POST['password_check'], ENT_QUOTES, 'UTF-8') : null;
+$tel = isset($_POST['tel']) ? htmlspecialchars($_POST['tel'], ENT_QUOTES, 'UTF-8') : null;
 
-// Check passwords if they match - redirect to match or not match screen
+
+// Check passwords if they match
 if ($password !== $password_check) {
     echo '<script>
     window.location.href = "not_reg.html";
@@ -32,7 +34,7 @@ $stmt->close();
 if ($count > 0) {
     echo '<script>
     alert("Tento nick je už obsadený. Prosím, vyberte si iný.");
-    window.location.href = "register_form.php"; // Redirect to the registration form
+    window.location.href = "../reg_form.php";
     </script>';
     exit;
 }
@@ -43,24 +45,70 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 $sql = "INSERT INTO users (name, nick, email, tel, password) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('sssis', $name, $nick, $mail, $tel, $hashed_password);
-$success = $stmt->execute(); // Capture the success of the execution
+$success = $stmt->execute(); // Execute len raz!
 
-// Check success
 if ($success) {
     $_SESSION["loggedin"] = true;
     $_SESSION["role"] = "user";
-    echo 
-    '<script>
-        window.location.href = "/projekt/message_handlers/true_reg.html";
-    </script>';
+
+    $mailer = new PHPMailer\PHPMailer\PHPMailer(true);
+    try {
+        // SMTP Configuration
+        $mailer->isSMTP();
+        $mailer->Host = 'smtp.gmail.com';
+        $mailer->SMTPAuth = true;
+        $mailer->Username = 'jankoferjancik@gmail.com';
+        $mailer->Password = 'taqt hjjc trvn tosj';
+        $mailer->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mailer->Port = 587;
+
+        // Sender and recipient
+        $mailer->setFrom('jankoferjancik@gmail.com', 'Vlaky prihlasenie');
+        $mailer->addAddress($mail, $name);
+
+        // Email content
+        $mailer->isHTML(true);
+        $mailer->Subject = 'Welcome to Our Site!';
+        $mailer->Body = "Ahoj $name,<br><br>Ďakujeme že ste sa zaregistrovali na Vlaky.sk!";
+        $mailer->AltBody = "Ahoj $name,\n\nVaša registrácia prebehla úspešne!";
+        // SMTPDebug nastavujeme len pre debugovanie, v produkcii odporúčame vypnúť
+        $mailer->SMTPDebug = 0;
+        $mailer->send();
+    } catch (Exception $e) {
+        error_log("Registration email error: " . $e->getMessage());
+    }
+
+    echo '<script>window.location.href = "/projekt/message_handlers/true_reg.html";</script>';
     exit;
 } else {
+    try {
+        $mailer = new PHPMailer\PHPMailer\PHPMailer(true);
+        // SMTP Configuration
+        $mailer->isSMTP();
+        $mailer->Host = 'smtp.gmail.com';
+        $mailer->SMTPAuth = true;
+        $mailer->Username = 'jankoferjancik@gmail.com';
+        $mailer->Password = 'taqt hjjc trvn tosaj';
+        $mailer->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mailer->Port = 587;
+
+        // Sender and recipient
+        $mailer->setFrom('jankoferjancik@gmail.com', 'Vlaky prihlasenie');
+        $mailer->addAddress($mail, $name);
+
+        // Email content
+        $mailer->isHTML(true);
+        $mailer->Subject = 'Welcome to Our Site!';
+        $mailer->Body = "Ahoj $name,<br><br>:( Ľutujeme ale vaša registrácia na Vlaky.sk nebola úspešná!";
+        $mailer->AltBody = "Ahoj $name,\n\nProsím skúste to ešte raz ";
+        $mailer->SMTPDebug = 0;
+        $mailer->send();
+    } catch (Exception $e) {
+        error_log("Registration email error: " . $e->getMessage());
+    }
     echo '<p>Registrácia zlyhala. Skontrolujte, či sú všetky údaje správne.</p>';
     session_destroy();
-    echo 
-    '<script>
-        window.location.href = "/projekt/message_handlers/not_reg.html";
-    </script>';
+    echo '<script>window.location.href = "/message_handlers/not_reg.html";</script>';
 }
 
 $stmt->close();
