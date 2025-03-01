@@ -1,5 +1,12 @@
 {
-    "require": {
-        "google/apiclient": "2.0"
+        "require": {
+        "firebase/php-jwt": "^6.0",
+        "guzzlehttp/guzzle": "^7.4",
+        "guzzlehttp/psr7": "^2.4",
+        "google/apiclient": "^2.0",
+        "cboden/ratchet": "^0.4.4",
+        "ratchet/pawl": "^0.4.1",
+        "textalk/websocket": "^1.5",
+                "phpmailer/phpmailer": "^6.9"
     }
 }

@@ -37,4 +37,37 @@ function registrated() {
     echo $countis;
     
 }
+function getRamUsagePercentage() {
+    $wmi = new COM('WinMgmts:\\\\.');
+    $memory = $wmi->ExecQuery('SELECT TotalVisibleMemorySize, FreePhysicalMemory FROM Win32_OperatingSystem');
+
+    foreach ($memory as $mem) {
+        $totalMemory = $mem->TotalVisibleMemorySize; // Total RAM in KB
+        $freeMemory = $mem->FreePhysicalMemory; // Free RAM in KB
+    }
+
+    $usedMemory = $totalMemory - $freeMemory;
+    $ramUsagePercentage = ($usedMemory / $totalMemory) * 100;
+
+    return round($ramUsagePercentage, 2); // Return percentage rounded to 2 decimal places
+}
+
+// Function to get CPU load percentage
+function getCpuLoadPercentage() {
+    $wmi = new COM('WinMgmts:\\\\.');
+    $cpus = $wmi->ExecQuery('SELECT LoadPercentage FROM Win32_Processor');
+
+    $totalLoad = 0;
+    $cpuCount = 0;
+
+    foreach ($cpus as $cpu) {
+        $totalLoad += $cpu->LoadPercentage; // CPU load percentage for each core
+        $cpuCount++;
+    }
+
+    $cpuLoadPercentage = $totalLoad / $cpuCount; // Average CPU load across all cores
+
+    return round($cpuLoadPercentage, 2); // Return percentage rounded to 2 decimal places
+}
+
 ?>

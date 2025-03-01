@@ -14,13 +14,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the user is logged in and has a valid role
-if (!isset($_SESSION['loggedin']) || !isset($_SESSION['role'])) {
-    $_SESSION['loggedin'] = false;
-    $_SESSION['role'] = 'guest'; // Default role
-} else {
-    // Optionally, you can add logic to refresh session or check role validity
-}
 
 try {
     $maxRetries = 3; // Maximum number of retries

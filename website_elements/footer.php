@@ -38,7 +38,7 @@
                         <div class="footer-widget">
                             <div class="footer-logo">
                             <a href="index.php">
-                                <img src="images/logo.jpg" alt="logo" class="logo">
+                                <img src="/projekt/images/logo.jpg" alt="logo" class="logo">
                             </a>
                             </div>
                             <div class="footer-text">
